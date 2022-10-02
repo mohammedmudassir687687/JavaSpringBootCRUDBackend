@@ -1,5 +1,6 @@
 package com.springcrudapp.fullstackbackend.controller;
 
+import com.springcrudapp.fullstackbackend.exception.UserNotFoundException;
 import com.springcrudapp.fullstackbackend.model.User;
 import com.springcrudapp.fullstackbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,11 @@ public class UserController {
     @GetMapping("/users")
     List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @GetMapping("/user/{id}")
+    User getUserById(@PathVariable Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(()->new UserNotFoundException(id));
     }
 }
